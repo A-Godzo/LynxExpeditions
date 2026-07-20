@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LynxExpeditions")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b90343934e0aa0da1d0b878090016e06cdbea1ce")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2f245bd227dce95fdb8f4646543093936a10518d")]
 [assembly: System.Reflection.AssemblyProductAttribute("LynxExpeditions")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LynxExpeditions")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
