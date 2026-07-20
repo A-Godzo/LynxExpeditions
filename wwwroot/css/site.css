@@ -518,16 +518,16 @@
         .fade-in.visible { opacity: 1; transform: translateY(0); }
 
         /* ── TOUR DETAIL OVERLAY ── */
-        .tour-detail-overlay {
+        /*.tour-detail-overlay {
             position: fixed; inset: 0; z-index: 300;
             background: rgba(15,26,18,0.75);
             backdrop-filter: blur(4px);
             opacity: 0; pointer-events: none;
             transition: opacity 0.35s ease;
         }
-        .tour-detail-overlay.open { opacity: 1; pointer-events: all; }
+        .tour-detail-overlay.open { opacity: 1; pointer-events: all; }*/
 
-        .tour-detail-panel {
+        /*.tour-detail-panel {
             position: absolute; top: 0; right: 0; bottom: 0;
             width: min(780px, 100%);
             background: var(--mist);
@@ -538,7 +538,7 @@
         }
         .tour-detail-overlay.open .tour-detail-panel {
             transform: translateX(0);
-        }
+        }*/
 
         .detail-hero {
             background: linear-gradient(135deg, var(--forest) 0%, var(--forest-light) 100%);

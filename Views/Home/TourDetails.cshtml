@@ -1,0 +1,109 @@
+﻿@model LynxExpeditions.Models.TourDetailsViewModel
+@{
+    ViewData["Title"] = Model.Tour.Name;
+}
+
+<div class="detail-hero">
+    <a href="/#tours" class="detail-close">✕</a>
+    <div style="text-align:center;"><img id="detailEmoji" src="~/@Model.Tour.Emoji" height="230px" width="300px" /></div>
+    <div class="detail-badge">@Model.Tour.Badge</div>
+    <h2 class="detail-title">@Model.Tour.Name</h2>
+    <div class="detail-region">📍 @Model.Tour.Region</div>
+    <div class="detail-pills">
+        <div class="detail-pill">🕐 @Model.Tour.Duration</div>
+        <div class="detail-pill">📊 @Model.Tour.Difficulty</div>
+        <div class="detail-pill">📅 Best: @Model.Detail.BestSeason</div>
+        <div class="detail-pill">👥 @Model.Detail.GroupSize</div>
+    </div>
+</div>
+
+<div class="detail-body">
+    <div class="detail-price-row">
+        <div>
+            <div class="detail-price-label">FROM</div>
+            <div class="detail-price-val">€@Model.Tour.Price<span>/person</span></div>
+        </div>
+        <a href="/#booking" class="detail-book-btn">Book Now →</a>
+    </div>
+
+    <div class="detail-section">
+        <div class="detail-section-title">About this tour</div>
+        <p class="detail-desc">@Model.Detail.LongDesc</p>
+    </div>
+
+    <div class="detail-section">
+        <div class="detail-section-title">Highlights</div>
+        <div class="detail-highlights">
+            @foreach (var h in Model.Detail.Highlights)
+            {
+                <div class="detail-highlight">@h</div>
+            }
+        </div>
+    </div>
+
+    <div class="detail-section">
+        <div class="detail-section-title">Itinerary</div>
+        <div class="detail-itinerary">
+            @for (var i = 0; i < Model.Detail.Itinerary.Count; i++)
+            {
+                var day = Model.Detail.Itinerary[i];
+                <div class="detail-day">
+                    <div class="detail-day-num">@(i + 1)</div>
+                    <div class="detail-day-content">
+                        <h4>@day.Title</h4>
+                        <p>@day.Desc</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="detail-section">
+        <div class="detail-section-title">What's included</div>
+        <div class="detail-includes">
+            @foreach (var inc in Model.Detail.Includes)
+            {
+                var parts = inc.Split(' ', 2);
+                <div class="detail-include">
+                    <span class="detail-include-icon">@parts[0]</span>
+                    <span>@(parts.Length > 1 ? parts[1] : "")</span>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="detail-section">
+        <div class="detail-section-title">Your guide</div>
+        <div class="detail-guide">
+            <div class="detail-guide-avatar">@Model.Detail.Guide.Avatar</div>
+            <div>
+                <div class="detail-guide-name">@Model.Detail.Guide.Name</div>
+                <div class="detail-guide-role">@Model.Detail.Guide.Role</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="detail-section" style="background:rgba(201,146,58,0.06);border:1px solid rgba(201,146,58,0.2);border-radius:10px;padding:1rem 1.25rem;">
+        <div class="detail-section-title" style="border-bottom-color:rgba(201,146,58,0.15);">Meeting point</div>
+        <p class="detail-desc">📍 @Model.Detail.MeetingPoint</p>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        (function () {
+            function getCookie(name) {
+                const m = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+                return m ? decodeURIComponent(m.pop()) : null;
+            }
+            function setCookie(name, value, days) {
+                const d = new Date();
+                d.setTime(d.getTime() + days * 864e5);
+                document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + d.toUTCString() + ';path=/;SameSite=Lax';
+            }
+            if (getCookie('lynx_cookie_consent') === 'true') {
+                setCookie('lynx_last_viewed', @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Tour.Name)), 30);
+            }
+        })();
+    </script>
+}

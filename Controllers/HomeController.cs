@@ -41,5 +41,17 @@ namespace LynxExpeditions.Controllers
 
             return View(model);
         }
+        public IActionResult TourDetails(int id, string lang = "en")
+        {
+            var tours = lang == "mk" ? TourData.GetToursMk() : TourData.GetToursEn();
+            var details = lang == "mk" ? TourDetailDataMk.GetTourDetailsMk() : TourDetailData.GetTourDetailsEn();
+
+            var tour = tours.FirstOrDefault(t => t.Id == id);
+            if (tour == null || !details.TryGetValue(id, out var detail))
+                return NotFound();
+
+            var model = new TourDetailsViewModel { Tour = tour, Detail = detail, Lang = lang };
+            return View(model);
+        }
     }
 }

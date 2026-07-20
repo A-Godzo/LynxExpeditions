@@ -12,122 +12,6 @@ const tourDetailsMk = window.__LYNX_DATA__.tourDetailsMk;
 // ── TOUR DETAIL OVERLAY ──
 let currentDetailTourId = null;
 
-function openTourDetail(tourId) {
-    var tour = {}
-    var tourDetails = {}
-    tempArray = []
-    if (currentLang === 'en') {
-        tour = toursEn.find(t => t.id === tourId);
-        tourDetails = tourDetailsEn;
-        tempArray[0] = 'FROM'
-        tempArray[1] = 'PERSON'
-        tempArray[2] = 'Book Now'
-        tempArray[3] = 'About this tour'
-        tempArray[4] = 'Highlights'
-        tempArray[5] = 'Itinerary'
-        tempArray[6] = 'What\'s included'
-        tempArray[7] = 'Your guide'
-        tempArray[8] = 'Meeting point'
-    } else {
-        tour = toursMk.find(t => t.id === tourId);
-        tourDetails = tourDetailsMk;
-        tempArray[0] = 'ОД'
-        tempArray[1] = 'ЧОВЕК'
-        tempArray[2] = 'Резервирај Сега'
-        tempArray[3] = 'За оваа тура'
-        tempArray[4] = 'Позначајно'
-        tempArray[5] = 'Рута'
-        tempArray[6] = 'Што е вклучено'
-        tempArray[7] = 'Водич'
-        tempArray[8] = 'Место за сретнување'
-    }
-    const detail = tourDetails[tourId];
-    if (!tour || !detail) return;
-    currentDetailTourId = tourId;
-
-    document.getElementById('detailEmoji').src = tour.emoji;
-    document.getElementById('detailBadge').textContent = tour.badge;
-    document.getElementById('detailTitle').textContent = tour.name;
-    document.getElementById('detailRegion').textContent = '📍 ' + tour.region;
-
-    document.getElementById('detailPills').innerHTML = `
-            <div class="detail-pill">🕐 ${tour.duration}</div>
-            <div class="detail-pill">📊 ${tour.difficulty}</div>
-            <div class="detail-pill">📅 Best: ${detail.bestSeason}</div>
-            <div class="detail-pill">👥 ${detail.groupSize}</div>
-        `;
-
-    // Build body
-    let itineraryHTML = detail.itinerary.map((day, i) => `
-            <div class="detail-day">
-                <div class="detail-day-num">${i + 1}</div>
-                <div class="detail-day-content">
-                    <h4>${day.title}</h4>
-                    <p>${day.desc}</p>
-                </div>
-            </div>
-        `).join('');
-
-    let highlightsHTML = detail.highlights.map(h => `<div class="detail-highlight">${h}</div>`).join('');
-    let includesHTML = detail.includes.map(inc => `
-            <div class="detail-include">
-                <span class="detail-include-icon">${inc.split(' ')[0]}</span>
-                <span>${inc.split(' ').slice(1).join(' ')}</span>
-            </div>
-        `).join('');
-
-    document.getElementById('detailBody').innerHTML = `
-            <div class="detail-price-row">
-                <div>
-                    <div class="detail-price-label">${tempArray[0]}</div>
-                    <div class="detail-price-val">€${tour.price}<span>/${tempArray[1]}</span></div>
-                </div>
-                <a href="#booking" class="detail-book-btn" onclick="closeTourDetail(); setBookingTour('${tour.name}')">${tempArray[2]} →</a>
-            </div>
-
-            <div class="detail-section">
-                <div class="detail-section-title">${tempArray[3]}</div>
-                <p class="detail-desc">${detail.longDesc}</p>
-            </div>
-
-            <div class="detail-section">
-                <div class="detail-section-title">${tempArray[4]}</div>
-                <div class="detail-highlights">${highlightsHTML}</div>
-            </div>
-
-            <div class="detail-section">
-                <div class="detail-section-title">${tempArray[5]}</div>
-                <div class="detail-itinerary">${itineraryHTML}</div>
-            </div>
-
-            <div class="detail-section">
-                <div class="detail-section-title">${tempArray[6]}</div>
-                <div class="detail-includes">${includesHTML}</div>
-            </div>
-
-            <div class="detail-section">
-                <div class="detail-section-title">${tempArray[7]}</div>
-                <div class="detail-guide">
-                    <div class="detail-guide-avatar">${detail.guide.avatar}</div>
-                    <div>
-                        <div class="detail-guide-name">${detail.guide.name}</div>
-                        <div class="detail-guide-role">${detail.guide.role}</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="detail-section" style="background:rgba(201,146,58,0.06);border:1px solid rgba(201,146,58,0.2);border-radius:10px;padding:1rem 1.25rem;">
-                <div class="detail-section-title" style="border-bottom-color:rgba(201,146,58,0.15);">${tempArray[8]}</div>
-                <p class="detail-desc">📍 ${detail.meetingPoint}</p>
-            </div>
-        `;
-
-    // Update save button state
-    updateDetailSaveBtn(tourId);
-
-    document.getElementById('tourDetailOverlay').classList.add('open');
-    document.body.style.overflow = 'hidden';
-}
 
 function closeTourDetail() {
     document.getElementById('tourDetailOverlay').classList.remove('open');
@@ -203,6 +87,14 @@ const COOKIE_CONSENT_KEY = 'lynx_cookie_consent';
 const SAVED_TOURS_KEY = 'lynx_saved_tours';
 const FORM_DATA_KEY = 'lynx_form_data';
 const LAST_VIEWED_KEY = 'lynx_last_viewed';
+const LANG_KEY = 'lynx_lang';
+
+function shouldShowWelcomeBack() {
+    const nav = performance.getEntriesByType('navigation')[0];
+    const isReload = nav ? nav.type === 'reload' : (performance.navigation && performance.navigation.type === 1);
+    const alreadyShownThisSession = sessionStorage.getItem('lynx_welcome_shown') === '1';
+    return isReload || !alreadyShownThisSession;
+}
 
 function getCookie(name) {
     const m = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
@@ -268,6 +160,8 @@ function loadSavedData() {
 }
 
 function showWelcomeBackIfReturning() {
+    if (!shouldShowWelcomeBack()) return;
+    sessionStorage.setItem('lynx_welcome_shown', '1');
     const lastTour = getCookie(LAST_VIEWED_KEY);
     if (lastTour) {
         const banner = document.getElementById('welcomeBack');
@@ -393,7 +287,10 @@ function renderTours(filter = 'all') {
         </div>
       </div>
     `;
-        card.addEventListener('click', () => openTourDetail(t.id));
+        //card.addEventListener('click', () => openTourDetail(t.id));
+        card.addEventListener('click', () => {
+            window.location.href = `/Home/TourDetails/${t.id}${currentLang === 'mk' ? '?lang=mk' : ''}`;
+        });
         grid.appendChild(card);
         setTimeout(() => card.classList.add('visible'), 50);
     });
@@ -461,7 +358,8 @@ function submitBooking() {
         return;
     }
     if (cookiesAccepted) {
-        setCookie(LAST_VIEWED_KEY, tour, 30);
+        //uncomment if welcome back reads from the last booked destination
+        //setCookie(LAST_VIEWED_KEY, tour, 30);
         saveFormData();
     }
     document.getElementById('bookingFormInner').style.display = 'none';
@@ -598,6 +496,7 @@ function toggleLang() {
     //First part of page
 
     currentLang = currentLang === 'en' ? 'mk' : 'en';
+    if (cookiesAccepted) setCookie(LANG_KEY, currentLang, 365);
     const t = translations[currentLang];
     const btn = document.getElementById('langBtn');
     btn.textContent = currentLang === 'en' ? 'МК' : 'EN';
@@ -632,13 +531,7 @@ function toggleLang() {
     })
     renderTours()
 
-    if (currentLang === 'en') {
-        document.querySelector('#detailFooter #detailSaveBtn').textContent = '♡ Save'
-        document.querySelector('#detailFooter #detailBookBtn').textContent = 'Book this tour →'
-    } else {
-        document.querySelector('#detailFooter #detailSaveBtn').textContent = '♡ Зачувај'
-        document.querySelector('#detailFooter #detailBookBtn').textContent = 'Резервирај ја турата →'
-    }
+    
 
     //Third part of page
     document.querySelector('#destinations .section-eyebrow').textContent = t.destFirst;
@@ -822,5 +715,8 @@ document.addEventListener('DOMContentLoaded', () => {
     renderDestinations();
     selectDest(0);
     initCookies();
+    if (getCookie(LANG_KEY) === 'mk') {
+        toggleLang();
+    }
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 });
