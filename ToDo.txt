@@ -1,6 +1,0 @@
-﻿1.Slikite da se menet vo wwwroot/js/site.js [tour-img] inner  --OK
-2.Da se naparajt databaza                                     --OK
-3.Posebna strana za detali na tura                            --OK
-4.[AKO NE E GOLEM PROBLEM] Roles za addanje turi
-    4.1Da se pamtit koj turi gi odbral eden user
-5.Da mojt da se addvit Reviews(od user) i Stories(od admin) 

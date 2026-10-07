@@ -1,0 +1,11 @@
+<?php $title = 'Bookings'; require __DIR__ . '/../includes/admin_header.php'; require __DIR__ . '/../includes/admin_ui.php';
+$statuses = ['Pending', 'Confirmed', 'Rejected', 'Cancelled']; $st = in_array($_GET['status'] ?? '', $statuses, true) ? $_GET['status'] : '';
+$where = $st ? 'WHERE b.Status=?' : ''; $args = $st ? [$st] : [];
+$c = db()->prepare("SELECT COUNT(*) FROM Booking b $where"); $c->execute($args); [$page, $off, $pages] = paginate((int)$c->fetchColumn(), 20);
+$q = db()->prepare("SELECT b.*,u.FirstName,u.LastName,u.Email,e.Name FROM Booking b JOIN User u ON u.Id=b.UserId JOIN Expedition e ON e.Id=b.ExpeditionId $where ORDER BY b.BookingDate DESC,b.Id DESC LIMIT 20 OFFSET $off"); $q->execute($args); $rows = $q->fetchAll(); ?>
+<h1 class="font-display text-4xl">Bookings</h1>
+<nav class="mt-4 flex flex-wrap gap-2" aria-label="Filter by status"><?php foreach (array_merge([''], $statuses) as $s): ?><a href="bookings.php<?=$s ? '?status=' . $s : ''?>" class="px-3 py-1.5 rounded text-sm <?=$st === $s ? 'bg-forest text-bone' : 'bg-white border border-stone hover:bg-bone'?>" <?=$st === $s ? 'aria-current="true"' : ''?>><?=$s ?: 'All'?></a><?php endforeach; ?></nav>
+<div class="<?=$card?> mt-5 overflow-x-auto"><table class="w-full"><thead><tr><th class="<?=$th?>">ID</th><th class="<?=$th?>">Customer</th><th class="<?=$th?>">Expedition</th><th class="<?=$th?>">Travelers</th><th class="<?=$th?>">Requested</th><th class="<?=$th?>">Status</th><th class="<?=$th?>"></th></tr></thead><tbody>
+<?php foreach ($rows as $b): ?><tr class="border-t border-stone"><td class="<?=$td?>">#<?=$b['Id']?></td><td class="<?=$td?>"><?=e(full_name($b))?><br><a class="text-ink/60 underline" href="mailto:<?=e($b['Email'])?>"><?=e($b['Email'])?></a></td><td class="<?=$td?>"><?=e($b['Name'])?></td><td class="<?=$td?>"><?=$b['NumberOfTravelers']?></td><td class="<?=$td?> whitespace-nowrap"><?=fmt_date($b['BookingDate'])?></td><td class="<?=$td?>"><?=badge($b['Status'])?></td><td class="<?=$td?>"><a class="<?=$btn2?>" href="booking.php?id=<?=$b['Id']?>">Open</a></td></tr><?php endforeach; ?>
+<?php if (!$rows): ?><tr><td colspan="7" class="<?=$td?>">No bookings found.</td></tr><?php endif; ?></tbody></table></div><?=pager($page, $pages)?>
+<?php require __DIR__ . '/../includes/admin_footer.php'; ?>

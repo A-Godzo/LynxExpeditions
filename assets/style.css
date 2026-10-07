@@ -1,0 +1,14 @@
+body{background:#F4F1E8;color:#111513;font-family:"Public Sans",system-ui,sans-serif;line-height:1.6}
+h1,h2,h3{font-family:"Barlow Condensed",Impact,sans-serif;font-weight:700;letter-spacing:.01em;line-height:1.05}
+:focus-visible{outline:3px solid #C99A4A;outline-offset:2px}
+.logo-on-dark{--logo-eye:#111513}
+.fav-btn svg{fill:none;stroke:currentColor;transition:transform .15s,fill .15s}
+.fav-btn[aria-pressed="true"] svg{fill:#C99A4A;stroke:#C99A4A}
+.fav-btn:active svg{transform:scale(1.2)}
+.acc-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .25s ease}
+.acc-panel>div{overflow:hidden}
+.acc-item.open .acc-panel{grid-template-rows:1fr}
+.acc-item .chev{transition:transform .25s}.acc-item.open .chev{transform:rotate(180deg)}
+.timeline li{position:relative}
+.timeline li::before{content:"";position:absolute;left:-1.9rem;top:.55rem;width:.75rem;height:.75rem;border-radius:9999px;background:#C99A4A;border:2px solid #F4F1E8}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
