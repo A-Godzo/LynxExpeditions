@@ -1,6 +1,6 @@
 <?php $title = 'Booking details'; require 'includes/header.php'; require_login();
 $s = db()->prepare('SELECT b.*,e.Name,e.StartDate,e.EndDate,e.Price,e.DepartureLocation,e.DurationDays FROM Booking b JOIN Expedition e ON e.Id=b.ExpeditionId WHERE b.Id=? AND b.UserId=?');
-$s->execute([(int)($_GET['id'] ?? 0), user()['Id']]); $b = $s->fetch(); // only the owner can see a booking
+$s->execute([(int)($_GET['id'] ?? 0), user()['Id']]); $b = $s->fetch(); 
 if (!$b) require 'includes/not_found.php';
 $canReview = can_review((int)user()['Id'], (int)$b['ExpeditionId']); $acct = 'trips'; ?>
 <div class="max-w-7xl mx-auto px-4 py-12"><a href="my-bookings.php" class="text-sm underline">Back to My Trips</a><h1 class="font-display text-5xl mt-2">Booking #<?=$b['Id']?></h1>
