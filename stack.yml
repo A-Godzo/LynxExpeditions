@@ -1,13 +1,8 @@
 version: 1
 ingress:
   - name: app
-    service: frontend
-    port: 3000
+    service: wordpress
+    port: 80
     primary: true
     access:
       type: team
-  - name: api
-    service: api
-    port: 80
-    access:
-      type: cas
