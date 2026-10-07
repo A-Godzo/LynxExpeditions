@@ -1,20 +1,17 @@
 services:
-  frontend:
-    image: node:22
-    command: ["node", "server.js"]
+  wordpress:
+    image: wordpress:6.7-apache
     cpus: 0.5
     mem_limit: 512m
+    depends_on:
+      mariadb:
+        condition: service_healthy
     volumes:
-      - .stack-data/uploads:/app/uploads
-    healthcheck:
-      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/health').then(r=>process.exit(r.ok?0:1))"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 10s
-
-  api:
-    image: python:3.12
-    command: ["python", "api.py"]
-    cpus: 0.25
-    mem_limit: 256m
+      
+.stack-data/wordpress:/var/www/html
+  healthcheck:
+    test: ["CMD", "curl", "-fsS", "http://localhost/"]
+    interval: 15s
+    timeout: 5s
+    retries: 3
+    start_period: 30s
