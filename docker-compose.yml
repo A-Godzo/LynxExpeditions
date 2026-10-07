@@ -20,7 +20,7 @@ services:
     cpus: 0.25
     mem_limit: 499m
     volumes:
-      - .stack-data/mariadb:/var/lib/mysql
+      - .stack-data/mariadb2:/var/lib/mysql
       - ./schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
       - ./seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
     healthcheck:
