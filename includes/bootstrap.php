@@ -10,7 +10,7 @@ session_start();
 // const DB_DSN = 'mysql:host=mariadb;dbname=lynx;charset=utf8mb4', DB_USER = 'root', DB_PASS = ''; od guide
 
 define('DB_DSN', 'mysql:host=mariadb;dbname=lynx;charset=utf8mb4');
-define('DB_USER', 'root');
+// define('DB_USER', 'root');
 define('DB_USER', getenv('MYSQL_USER') ?: '');
 define('DB_PASS', getenv('DB_PASS') ?: '');
 
