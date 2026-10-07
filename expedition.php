@@ -6,7 +6,7 @@ if($_SERVER['REQUEST_METHOD']==='POST'){ check_csrf(); require_login();
  $n=(int)($_POST['travelers']??0); $note=trim($_POST['message']??'');
  if($x['StartDate']<=date('Y-m-d')) $err='This expedition has already departed.'; elseif($n<1) $err='Enter at least one traveler.'; elseif(empty($_POST['terms'])) $err='Accept the Terms & Conditions to continue.';
  else { $pdo=db(); $pdo->beginTransaction();
-  $pdo->prepare('SELECT Id FROM Expedition WHERE Id=? FOR UPDATE')->execute([$id]); // serialise capacity checks
+  $pdo->prepare('SELECT Id FROM Expedition WHERE Id=? FOR UPDATE')->execute([$id]);
   $left=$x['MaxGroupSize']-booked_travelers($id);
   if($n>$left){ $err="Only $left place(s) left on this expedition."; $pdo->rollBack(); }
   else { $pdo->prepare('INSERT INTO Booking(UserId,ExpeditionId,NumberOfTravelers,CustomerMessage) VALUES(?,?,?,?)')->execute([user()['Id'],$id,$n,$note]); $bid=$pdo->lastInsertId(); $pdo->commit(); $msg="Request received. Your booking ID is #$bid and its status is Pending."; } } }
