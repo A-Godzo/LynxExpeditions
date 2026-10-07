@@ -11,6 +11,7 @@ session_start();
 
 define('DB_DSN', 'mysql:host=mariadb;dbname=lynx;charset=utf8mb4');
 define('DB_USER', 'root');
+define('DB_USER', getenv('MYSQL_USER') ?: '');
 define('DB_PASS', getenv('DB_PASS') ?: '');
 
 define('ROOT', defined('IN_ADMIN') ? '../' : '');
