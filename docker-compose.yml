@@ -1,8 +1,8 @@
 services:
   wordpress:
     image: wordpress:6.7-apache
-    cpus: 0.5
-    mem_limit: 512m
+    cpus: 0.25
+    mem_limit: 256m
     depends_on:
       mariadb:
         condition: service_healthy
@@ -17,8 +17,8 @@ services:
 
   mariadb:
     image: mariadb:11
-    cpus: 0.5
-    mem_limit: 512m
+    cpus: 0.25
+    mem_limit: 256m
     volumes:
       - .stack-data/mariadb:/var/lib/mysql
     healthcheck:
