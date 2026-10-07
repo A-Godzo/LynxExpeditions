@@ -9,7 +9,7 @@ services:
     volumes:
       - .stack-data/wordpress:/var/www/html
     healthcheck:
-      test: ["CMD", "curl", "-fsS", "http://localhost/"]
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost/"]
       interval: 15s
       timeout: 5s
       retries: 3
