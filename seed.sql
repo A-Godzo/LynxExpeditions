@@ -75,7 +75,7 @@ INSERT INTO `Expedition` (`Id`, `Name`, `ShortDescription`, `Description`, `Itin
 -- Dumping data for table `expeditionphoto`
 --
 
-INSERT INTO `Expeditionphoto` (`Id`, `ExpeditionId`, `Image`) VALUES
+INSERT INTO `ExpeditionPhoto` (`Id`, `ExpeditionId`, `Image`) VALUES
 (1, 2, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToQMtkhQtJLWFzxQ-jFE1NIZMbcK1oW_sizM1l5pqVNA&s=10'),
 (2, 2, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCFGoKqnmPMx5C6v4eoZR39xzFxq8fK3gEwZFxBc-bDw&s=10');
 
@@ -91,7 +91,7 @@ INSERT INTO `Favorite` (`Id`, `UserId`, `ExpeditionId`, `CreatedAt`) VALUES
 -- Dumping data for table `journalpost`
 --
 
-INSERT INTO `Journalpost` (`Id`, `Title`, `Slug`, `Content`, `AuthorId`, `PublishedAt`) VALUES
+INSERT INTO `JournalPost` (`Id`, `Title`, `Slug`, `Content`, `AuthorId`, `PublishedAt`) VALUES
 (1, 'My advanture in the Hidden Shores of Ohrid', 'my-advanture-in-the-hidden-shores-of-ohrid', 'I went to the hidden Shores of Ohrid and saw a lot of fish and some harmless water snakes. Very enjoyable.', 4, '2026-10-06 21:04:20'),
 (2, 'Lake Ohrid\'s Water', 'lake-ohrid-s-water', 'The water was calm and very warm. I loved the experience!', 4, '2026-10-06 21:05:28');
 
