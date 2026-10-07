@@ -1,6 +1,8 @@
 services:
   wordpress:
-    image: php:8.3-apache
+    build:
+      context: .
+      dockerfile: Dockerfile.web
     cpus: 0.25
     mem_limit: 499m
     volumes:
