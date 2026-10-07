@@ -3,18 +3,17 @@
 ini_set('session.use_strict_mode', '1');
 ini_set('session.cookie_httponly', '1');
 ini_set('session.cookie_samesite', 'Lax');
-ini_set('session.gc_maxlifetime', '2592000'); // lets "Remember me" survive server-side
+ini_set('session.gc_maxlifetime', '2592000'); // kolku "Remember me" pamtit
 session_start();
 
 const DB_DSN = 'mysql:host=localhost;dbname=lynx;charset=utf8mb4', DB_USER = 'root', DB_PASS = '';
-// Admin pages live in /admin, so relative links need a "../" prefix there.
+
 define('ROOT', defined('IN_ADMIN') ? '../' : '');
 
-/* mbstring is common but not guaranteed on shared hosting; these fallbacks keep the site working without it. */
 if (!function_exists('mb_strlen')) { function mb_strlen($s) { return preg_match_all('/./su', (string)$s); } }
 if (!function_exists('mb_substr')) { function mb_substr($s, $start, $len = null) { preg_match_all('/./su', (string)$s, $m); return implode('', array_slice($m[0], $start, $len)); } }
 
-/* ---------- Database ---------- */
+/* ---------- Databaza ---------- */
 function db(): PDO { static $p; return $p ??= new PDO(DB_DSN, DB_USER, DB_PASS, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC]); }
 
 /* ---------- Output / auth / CSRF ---------- */
@@ -26,10 +25,10 @@ function csrf(): string { return $_SESSION['csrf'] ??= bin2hex(random_bytes(16))
 function csrf_field(): string { return '<input type="hidden" name="csrf" value="' . csrf() . '">'; }
 function check_csrf(): void { if (!hash_equals($_SESSION['csrf'] ?? '', $_POST['csrf'] ?? '')) { http_response_code(400); exit('Invalid request'); } }
 
-/* ---------- Business logic ---------- */
-/** Travelers counted against capacity: Pending and Confirmed. */
+/* ---------- Logika ---------- */
+/** broj na patnici sproti slobodni mesta */
 function booked_travelers(int $id): int { $s = db()->prepare("SELECT COALESCE(SUM(NumberOfTravelers),0) FROM Booking WHERE ExpeditionId=? AND Status IN('Pending','Confirmed')"); $s->execute([$id]); return (int)$s->fetchColumn(); }
-/** A customer may review an expedition once they hold a Confirmed booking for it and have not reviewed it yet. */
+/** Za review samo posle od ko ce e prifaten */
 function can_review(int $uid, int $eid): bool {
   $s = db()->prepare("SELECT (SELECT COUNT(*) FROM Booking WHERE UserId=? AND ExpeditionId=? AND Status='Confirmed') > 0 AND (SELECT COUNT(*) FROM Review WHERE UserId=? AND ExpeditionId=?) = 0");
   $s->execute([$uid, $eid, $uid, $eid]); return (bool)$s->fetchColumn();
@@ -41,7 +40,6 @@ function fav_ids(): array {
   return $ids;
 }
 
-/* ---------- Small view helpers ---------- */
 function img(?string $p): string { $p = $p ?: 'assets/placeholder.jpg'; if (!preg_match('~^(https?:)?//|^/~', $p)) $p = ROOT . $p; return e($p); }
 function go(string $url): void { header('Location: ' . $url); exit; }
 function flash(string $msg, string $type = 'ok'): void { $_SESSION['flash'][] = [$type, $msg]; }
@@ -66,7 +64,7 @@ function pager(int $page, int $pages): string {
   return '<nav class="mt-8 flex items-center gap-3 text-sm" aria-label="Pagination">' . ($page > 1 ? $link($page - 1, 'Newer') : '') . '<span>Page ' . $page . ' of ' . $pages . '</span>' . ($page < $pages ? $link($page + 1, 'Older') : '') . '</nav>';
 }
 
-/* ---------- Image handling (admin uploads) ---------- */
+/* ---------- Image handling ko ce spustat adminon ---------- */
 function store_image(array $f): ?string {
   if (($f['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE) return null;
   if ($f['error'] !== UPLOAD_ERR_OK || $f['size'] > 5 * 1024 * 1024) throw new RuntimeException('Image upload failed or is larger than 5 MB.');
