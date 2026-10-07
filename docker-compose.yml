@@ -1,20 +1,21 @@
 services:
-  frontend:
-    image: node:22
-    command: ["node", "server.js"]
+  web:
+    build: .
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASS: lynxpass
+    depends_on:
+      - db
     cpus: 0.5
     mem_limit: 512m
-    volumes:
-      - .stack-data/uploads:/app/uploads
-    healthcheck:
-      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/health').then(r=>process.exit(r.ok?0:1))"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 10s
 
-  api:
-    image: python:3.12
-    command: ["python", "api.py"]
-    cpus: 0.25
-    mem_limit: 256m
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile.db
+    command: ["--lower-case-table-names=1"]
+    environment:
+      MARIADB_ROOT_PASSWORD: lynxpass
+    cpus: 0.5
+    mem_limit: 512m
