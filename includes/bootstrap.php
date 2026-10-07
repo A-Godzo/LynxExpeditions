@@ -6,7 +6,8 @@ ini_set('session.cookie_samesite', 'Lax');
 ini_set('session.gc_maxlifetime', '2592000'); // kolku "Remember me" pamtit
 session_start();
 
-const DB_DSN = 'mysql:host=localhost;dbname=lynx;charset=utf8mb4', DB_USER = 'root', DB_PASS = '';
+// const DB_DSN = 'mysql:host=localhost;dbname=lynx;charset=utf8mb4', DB_USER = 'root', DB_PASS = '';
+const DB_DSN = 'mysql:host=mariadb;dbname=lynx;charset=utf8mb4', DB_USER = 'root', DB_PASS = ''; //od guide
 
 define('ROOT', defined('IN_ADMIN') ? '../' : '');
 
