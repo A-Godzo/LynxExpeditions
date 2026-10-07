@@ -3,9 +3,6 @@ services:
     image: wordpress:6.7-apache
     cpus: 0.25
     mem_limit: 499m
-    depends_on:
-      mariadb:
-        condition: service_healthy
     volumes:
       - .stack-data/wordpress:/var/www/html
     healthcheck:
@@ -20,7 +17,7 @@ services:
     cpus: 0.25
     mem_limit: 499m
     volumes:
-      - .stack-data/mariadb2:/var/lib/mysql
+      - .stack-data/mariadb3:/var/lib/mysql
       - ./schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
       - ./seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
     healthcheck:
