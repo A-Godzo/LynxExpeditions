@@ -1,12 +1,13 @@
 services:
   wordpress:
-    image: wordpress:6.7-apache
+    image: php:8.3-apache
     cpus: 0.25
     mem_limit: 499m
     volumes:
-      - .stack-data/wordpress:/var/www/html
+      - .:/var/www/html
+      - .stack-data/uploads:/var/www/html/uploads
     healthcheck:
-      test: ["CMD", "wget", "-q", "--spider", "http://localhost/"]
+      test: ["CMD-SHELL", "php -r 'exit((int)empty(@file_get_contents(\"http://127.0.0.1/\")));'"]
       interval: 15s
       timeout: 5s
       retries: 3
