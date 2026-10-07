@@ -28,7 +28,7 @@ USE `lynx`;
 -- Dumping data for table `booking`
 --
 
-INSERT INTO `booking` (`Id`, `UserId`, `ExpeditionId`, `NumberOfTravelers`, `BookingDate`, `Status`, `CustomerMessage`, `AdminMessage`) VALUES
+INSERT INTO `Booking` (`Id`, `UserId`, `ExpeditionId`, `NumberOfTravelers`, `BookingDate`, `Status`, `CustomerMessage`, `AdminMessage`) VALUES
 (1, 2, 1, 4, '2026-10-05 22:05:54', 'Confirmed', 'Braat saka so nuki i boro i milanka da skita po pelister be braaat zimi sve. fiks??', 'ae za nasi fiks'),
 (2, 2, 1, 6, '2026-10-05 22:06:24', 'Rejected', 'Braat us 7 gaseri saket da idet mojt. \r\n6*', 'ne be baat'),
 (3, 4, 10, 3, '2026-10-06 21:00:41', 'Confirmed', 'I\'d love to go here', 'Booked have fun');
@@ -37,14 +37,14 @@ INSERT INTO `booking` (`Id`, `UserId`, `ExpeditionId`, `NumberOfTravelers`, `Boo
 -- Dumping data for table `contactmessage`
 --
 
-INSERT INTO `contactmessage` (`Id`, `Name`, `Email`, `Subject`, `Message`, `SubmittedAt`, `IsRead`) VALUES
+INSERT INTO `ContactMessage` (`Id`, `Name`, `Email`, `Subject`, `Message`, `SubmittedAt`, `IsRead`) VALUES
 (1, 'Steve Irwin', 'irwinsteve@yahoo.com', 'Where do i pay', 'Can i film this trip for naional geographic chanel?', '2026-10-06 21:06:38', 1);
 
 --
 -- Dumping data for table `destination`
 --
 
-INSERT INTO `destination` (`Id`, `Name`, `Country`, `Region`, `Description`, `Image`, `BestTimeToVisit`, `TravelTips`) VALUES
+INSERT INTO `Destination` (`Id`, `Name`, `Country`, `Region`, `Description`, `Image`, `BestTimeToVisit`, `TravelTips`) VALUES
 (1, 'Ohrid and Lake Ohrid', 'North Macedonia', 'Southwest', 'One of Europe\'s oldest and deepest lakes, with a medieval old town, lakeside monasteries and mountain views.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQM4cb2CihnoCSLzekjB_KEOJqbZSgGJCDdJ3w_n__uIw&s=10', 'May to September', 'Bring a swimsuit for the lake\r\nOld town streets are steep and cobbled\r\nTry the local Ohrid trout'),
 (2, 'Pelister and Prespa', 'North Macedonia', 'Southwest', 'Pelister is the country\'s oldest national park, with alpine lakes called the Eyes of Pelister and rare five-needle pines.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVZvnEi8zXEB0qxHmhbnOLbGtait5MVnDMzgYBJH31jw&s=10', 'June to October', 'Weather changes quickly above 2000 m\r\nCarry water and layers\r\nTrail markings can be faint'),
 (3, 'Sofia and Rila', 'Bulgaria', 'Southwest Bulgaria', 'A relaxed capital at the foot of Vitosha mountain, with the Seven Rila Lakes and Rila Monastery a short drive away.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfZ5z04Wp3O0C_c2lLQvysCPbzXsUDl0IXbhBVEN2fqw&s=10', 'May to October', 'Sofia is very walkable\r\nRila Monastery asks for modest dress\r\nLakes can hold snow into June'),
@@ -58,7 +58,7 @@ INSERT INTO `destination` (`Id`, `Name`, `Country`, `Region`, `Description`, `Im
 -- Dumping data for table `expedition`
 --
 
-INSERT INTO `expedition` (`Id`, `Name`, `ShortDescription`, `Description`, `Itinerary`, `Included`, `NotIncluded`, `Price`, `DurationDays`, `Difficulty`, `MaxGroupSize`, `DepartureLocation`, `FeaturedImage`, `StartDate`, `EndDate`, `CategoryId`, `DestinationId`, `IsFeatured`, `IsActive`) VALUES
+INSERT INTO `Expedition` (`Id`, `Name`, `ShortDescription`, `Description`, `Itinerary`, `Included`, `NotIncluded`, `Price`, `DurationDays`, `Difficulty`, `MaxGroupSize`, `DepartureLocation`, `FeaturedImage`, `StartDate`, `EndDate`, `CategoryId`, `DestinationId`, `IsFeatured`, `IsActive`) VALUES
 (1, 'Pelister Lakes Traverse', 'Two days across alpine lakes and old pine forest.', 'Walk from the park edge up to the Eyes of Pelister and across the ridge, with a night in a mountain hut.', 'Day 1: Drive from Skopje, hike to the lakes\r\nDay 2: Ridge walk and descent, return to Skopje', 'Mountain guide\r\nHut accommodation\r\nTransport from Skopje\r\nBreakfast and trail lunch', 'Dinner\r\nPersonal gear\r\nTravel insurance', 149.00, 2, 'Moderate', 10, 'Skopje', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMAof0tpr0m_zGADafDwoeVrZI3AElXqSebDnBc3CZ0g&s=10', '2026-11-04', '2026-11-05', 1, 2, 1, 1),
 (2, 'Lake Ohrid Slow Weekend', 'Old town, monasteries and the lakeshore at an easy pace.', 'A relaxed weekend around Lake Ohrid with a local historian, a boat trip and time for swimming.', 'Day 1: Transfer to Ohrid, old town walk\r\nDay 2: Monastery visit and boat trip\r\nDay 3: Free morning, return to Skopje', 'Local guide\r\n2 nights in a guesthouse\r\nBoat trip\r\nTransport', 'Meals\r\nEntrance fees', 189.00, 3, 'Easy', 12, 'Skopje', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFnr0ohnMhX86kPJdeX_qaVbDSVOe0ayqBnkTsJDRH5A&s=10', '2026-11-19', '2026-11-21', 2, 1, 1, 1),
 (3, 'Seven Rila Lakes Day Hike', 'A full day among glacial lakes in the Rila mountains.', 'Take the chairlift and hike the circuit of the seven lakes with panoramic views.', 'Day 1: Early departure, lake circuit, evening return', 'Guide\r\nChairlift ticket\r\nTransport', 'Meals\r\nTravel insurance', 89.00, 1, 'Challenging', 8, 'Skopje', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTB_AZclPPHbT1SQKFqH8Beq8-OpZTPPkA1A0OaqJOepw&s=10', '2026-12-04', '2026-12-04', 1, 3, 1, 1),
@@ -75,7 +75,7 @@ INSERT INTO `expedition` (`Id`, `Name`, `ShortDescription`, `Description`, `Itin
 -- Dumping data for table `expeditionphoto`
 --
 
-INSERT INTO `expeditionphoto` (`Id`, `ExpeditionId`, `Image`) VALUES
+INSERT INTO `Expeditionphoto` (`Id`, `ExpeditionId`, `Image`) VALUES
 (1, 2, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToQMtkhQtJLWFzxQ-jFE1NIZMbcK1oW_sizM1l5pqVNA&s=10'),
 (2, 2, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCFGoKqnmPMx5C6v4eoZR39xzFxq8fK3gEwZFxBc-bDw&s=10');
 
@@ -83,7 +83,7 @@ INSERT INTO `expeditionphoto` (`Id`, `ExpeditionId`, `Image`) VALUES
 -- Dumping data for table `favorite`
 --
 
-INSERT INTO `favorite` (`Id`, `UserId`, `ExpeditionId`, `CreatedAt`) VALUES
+INSERT INTO `Favorite` (`Id`, `UserId`, `ExpeditionId`, `CreatedAt`) VALUES
 (2, 4, 2, '2026-10-06 21:03:18'),
 (3, 4, 3, '2026-10-06 21:03:19');
 
@@ -91,7 +91,7 @@ INSERT INTO `favorite` (`Id`, `UserId`, `ExpeditionId`, `CreatedAt`) VALUES
 -- Dumping data for table `journalpost`
 --
 
-INSERT INTO `journalpost` (`Id`, `Title`, `Slug`, `Content`, `AuthorId`, `PublishedAt`) VALUES
+INSERT INTO `Journalpost` (`Id`, `Title`, `Slug`, `Content`, `AuthorId`, `PublishedAt`) VALUES
 (1, 'My advanture in the Hidden Shores of Ohrid', 'my-advanture-in-the-hidden-shores-of-ohrid', 'I went to the hidden Shores of Ohrid and saw a lot of fish and some harmless water snakes. Very enjoyable.', 4, '2026-10-06 21:04:20'),
 (2, 'Lake Ohrid\'s Water', 'lake-ohrid-s-water', 'The water was calm and very warm. I loved the experience!', 4, '2026-10-06 21:05:28');
 
@@ -99,7 +99,7 @@ INSERT INTO `journalpost` (`Id`, `Title`, `Slug`, `Content`, `AuthorId`, `Publis
 -- Dumping data for table `notification`
 --
 
-INSERT INTO `notification` (`Id`, `UserId`, `Message`, `CreatedAt`, `IsRead`) VALUES
+INSERT INTO `Notification` (`Id`, `UserId`, `Message`, `CreatedAt`, `IsRead`) VALUES
 (1, 2, 'Your booking #2 for Pelister Lakes Traverse could not be accepted. Message from Lynx: ne be baat', '2026-10-05 22:07:01', 1),
 (2, 2, 'Your booking #1 for Pelister Lakes Traverse has been confirmed. Message from Lynx: ae za nasi fiks', '2026-10-05 22:07:12', 1),
 (3, 4, 'Your booking #3 for Ohrid Hidden Shores has been confirmed. Message from Lynx: Booked have fun', '2026-10-06 21:01:47', 1);
@@ -108,14 +108,14 @@ INSERT INTO `notification` (`Id`, `UserId`, `Message`, `CreatedAt`, `IsRead`) VA
 -- Dumping data for table `review`
 --
 
-INSERT INTO `review` (`Id`, `UserId`, `ExpeditionId`, `Rating`, `Comment`, `CreatedAt`) VALUES
+INSERT INTO `Review` (`Id`, `UserId`, `ExpeditionId`, `Rating`, `Comment`, `CreatedAt`) VALUES
 (2, 4, 10, 4, 'Had a blast. Really enjoyed the lake.', '2026-10-06 21:02:51');
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`Id`, `FirstName`, `LastName`, `Email`, `PasswordHash`, `Role`) VALUES
+INSERT INTO `User` (`Id`, `FirstName`, `LastName`, `Email`, `PasswordHash`, `Role`) VALUES
 (1, 'Andon', 'Godzo', 'andon3000@gmail.com', '$2y$10$DFQqniIH7ny1spmPfxdxuuUkhSKU2381XK1hIH4J/Bf1DnS0xSIDW', 'Admin'),
 (2, 'Aleksandar', 'Grujevski', 'aleksandargrujevski@gmail.com', '$2y$10$qeNByiskp/ygbYsUnni4muOvytg7JbIxGI1A/gKQVfcGjjoG27ztm', 'Customer'),
 (3, 'Elena', 'Trajkovska', 'etrajkovska@gmail.com', '$2y$10$V38rYaTRRKbsvP9wWpcBAOOWNI0uJfLB5iQw2Mj4emGbMVe6gfL/a', 'Admin'),
