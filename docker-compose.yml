@@ -7,11 +7,23 @@ services:
       mariadb:
         condition: service_healthy
     volumes:
-      
-.stack-data/wordpress:/var/www/html
-  healthcheck:
-    test: ["CMD", "curl", "-fsS", "http://localhost/"]
-    interval: 15s
-    timeout: 5s
-    retries: 3
-    start_period: 30s
+      - .stack-data/wordpress:/var/www/html
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost/"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
+  mariadb:
+    image: mariadb:11
+    cpus: 0.5
+    mem_limit: 512m
+    volumes:
+      - .stack-data/mariadb:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
