@@ -28,7 +28,7 @@ services:
       MARIADB_USER: ${MARIADB_USER}
       MARIADB_PASSWORD: ${MARIADB_PASSWORD}
     volumes:
-      - .stack-data/mariadb5:/var/lib/mysql
+      - .stack-data/mariadb6:/var/lib/mysql
       - ./schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
       - ./seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
     healthcheck:
