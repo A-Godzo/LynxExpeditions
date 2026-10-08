@@ -19,6 +19,9 @@ services:
     image: mariadb:11
     cpus: 0.25
     mem_limit: 499m
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MARIADb_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
     volumes:
       - .stack-data/mariadb5:/var/lib/mysql
       - ./schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
